@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	    <title>EhrScape - Vnos in poizvedovanje po EHR podatkih</title>
+	    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	    <script src="http://d3js.org/d3.v3.min.js"></script>
+	    <script src="demo.js"></script>
+	    <style>
+	  		body {padding: 10px;color: black;background: url('http://img2.wikia.nocookie.net/__cb20131023163717/villains/images/b/b9/Grim.jpg');margin-left:10px;margin-right:10px;}
+	  		.btn {margin-top: 10px;}
+	  		.obvestilo {margin-left:10px;}
+	  	</style>
+	</head>
+	<body>
+		<div class="row">
+		<div class="col-lg-2 col-md-2 col-sm-2"><h1 style="color:black;background-color:white;"> LETO SMRTI :)</h1></div>
+		</div>
+		<div class="row"><!--to je 1 vrstica -->
+			<div class="col-lg-6 col-md-6 col-sm-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-lg-8 col-md-8 col-sm-8"><b>Vnos meritve vitalnih znakov prebivalca</b></div>
+							<div class="col-lg-4 col-md-4 col-sm-4"><select class="form-control input-sm" id="preberiObstojeciVitalniZnak"><option value=""></option><option value="b931580f-2b05-488b-985b-8d9ffb08ad02|2013-11-21T11:40Z|185|80.0|118|92|medicinska sestra Smrketa">Ata Smrk</option><option value="76c6f6ee-aeb9-48e7-bffe-57ac29906979|1990-12-20T14:58|159|89.0|108|90|medicinska sestra Dvigalo">Mojster Miha</option><option value="aac72718-e8b6-4bb8-993f-41921588348c|0000-03-1T11:40Z|165|80.0|128|94|medicinska sestra Ogenj">Homo Sapiens</option><option value="b52fa697-3442-4a0d-aaa3-a2a4996ae881|2003-11-21T11:40Z|185|80.0|218|92|medicinska sestra Helga">Han Solo</option></select></div>
+						</div>
+					</div>				
+					<div class="panel-body">
+						<span class="label label-default">EHR ID</span><input id="dodajVitalnoEHR" type="text" class="form-control input-mini" placeholder="7b661e12-3a98-21ad-c29e-2dc9f5a3d885">
+						<span class="label label-default">Datum in ura</span><input id="dodajVitalnoDatumInUra" type="text" class="form-control input-mini" placeholder="2014-11-21T11:40Z">
+						<span class="label label-default">Telesna višina</span><div class="input-group"><input id="dodajVitalnoTelesnaVisina" type="text" class="form-control input-mini" placeholder="185"><span class="input-group-addon">cm</span></div>
+						<span class="label label-default">Telesna teža</span><div class="input-group"><input id="dodajVitalnoTelesnaTeza" type="text" class="form-control input-mini" placeholder="80.00"><span class="input-group-addon">kg</span></div>
+						<span class="label label-default">Sistolični krvni tlak</span><div class="input-group"><input id="dodajVitalnoKrvniTlakSistolicni" type="text" class="form-control input-mini" placeholder="118"><span class="input-group-addon">mm Hg</span></div>
+						<span class="label label-default">Diastolični krvni tlak</span><div class="input-group"><input id="dodajVitalnoKrvniTlakDiastolicni" type="text" class="form-control input-mini" placeholder="92"><span class="input-group-addon">mm Hg</span></div>
+						<span class="label label-default">Merilec</span><input id="dodajVitalnoMerilec" type="text" class="form-control input-mini" placeholder="medicinska sestra Hrastova Micka">
+						<button type="button" class="btn btn-primary btn-xs" onclick="dodajMeritveVitalnihZnakov()">Dodaj meritve vitalnih znakov</button><span id="dodajMeritveVitalnihZnakovSporocilo"></span>
+						<button type="button" class="btn btn-primary btn-xs" onclick="generator()">Generiraj podatke</button><span id="generator"></span>
+				  	</div>
+				</div>
+				
+				<div class="col-lg-6 col-md-6 col-sm-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-lg-8 col-md-8 col-sm-8"><b>Kreiraj EHR zapis za novega prebivalca</b></div>
+							<div class="col-lg-4 col-md-4 col-sm-4"><select class="form-control input-sm" id="preberiPredlogoBolnika"><option value=""></option><option value="Mojster,Miha,1990-10-20T14:58">Mojster Miha</option><option value="Paradižnik,Robi,1994-12-21T13:15">Paradižnik Robi</option><option value="Kumara,Lovro,1960-11-1T14:58">Kumara Lovro</option></select></div>
+						</div>
+					</div>
+					<div class="panel-body">
+						<span class="label label-default">Ime</span><input id="kreirajIme" type="text" class="form-control input-mini" placeholder="Osama">
+						<span class="label label-default">Priimek</span><input id="kreirajPriimek" type="text" class="form-control" placeholder="Bin Laden">
+						<span class="label label-default">Datum rojstva</span><input id="kreirajDatumRojstva" type="text" class="form-control" placeholder="1957-03-10T09:08">
+						<button type="button" class="btn btn-primary btn-xs" onclick="kreirajEHRzaBolnika()">Dodaj prebivalca</button><span id="kreirajSporocilo"></span>
+				  	</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-sm-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="row" title="Izberi prebivalca in datum pregleda in dobil boš graf, ki ti prikaže okvirno leto smrti glede na vitalne podatke na pregledu.">
+							<div class="col-lg-6 col-md-6 col-sm-6"><b>Pregled meritev vitalnih znakov prebivalca</b></div>
+							<div class="col-lg-6 col-md-6 col-sm-6"><select class="form-control input-sm" id="preberiEhrIdZaVitalneZnake"><option value=""></option><option value="1a26b316-a50b-41f2-a780-ca4ceec66e0e">Miha Novak</option><option value="76c6f6ee-aeb9-48e7-bffe-57ac29906979">Mojster Miha</option><option value="b52fa697-3442-4a0d-aaa3-a2a4996ae881">Han Solo</option><option value="aac72718-e8b6-4bb8-993f-41921588348c">Homo Sapiens</option></select></div>
+						</div>
+					</div>				
+					<div class="panel-body">
+						<span class="label label-default">EHR ID</span><input id="meritveVitalnihZnakovEHRid" type="text" class="form-control input-mini" placeholder="7b661e12-3a98-21ad-c29e-2dc9f5a3d885">
+						<button type="button" class="btn btn-primary btn-xs" onclick="preberiMeritveVitalnihZnakov('telesna temperatura')">Preberi meritve vitalnih znakov</button><span id="preberiMeritveVitalnihZnakovSporocilo"></span>
+						<div id="rezultatMeritveVitalnihZnakov"></div>
+						<div id="graf" title="Graf vam prikaže povprečno starost prebivalca in njegovo pričakovano leto smrti glede na vitalne znake, ki so bili izmerjeni na izbranem pregledu."></div>
+				  	</div>
+				</div>			
+			</div>
+			</div>
+	</body>
+</html>
+<!-->luka Krhlikar
